@@ -3,7 +3,7 @@
 
 SimpleMQ 是一个简单易用的消息队列(MQ,message queue)库，使用 Python2 写成，以 Reids 作为后端。
 
-SimpleMQ 的口号是：“messaging that just works easier！”。
+SimpleMQ 的口号是：“messaging that just work easier！”。
 
 
 使用方法
@@ -12,22 +12,24 @@ SimpleMQ 的口号是：“messaging that just works easier！”。
 1. 用新类继承 SimpleMQ 类，并重载 handler 类方法，其中 handler 负责处理消息；
    如果有需要的话，你也可以指定 Redis 使用的客户端及其参数。
 
-from redis import Redis
-from time import ctime
-from simplemq import SimpleMQ
+::
 
-class HelloWorldMQ(SimpleMQ):
-
-    client = Redis(db=3)
-
-    @classmethod
-    def handler(cls, msg):
-        print("Time: {0}".format(ctime()))
-
-        if msg == "hello world":
-            print(msg)
-        else:
-            print("i don't know what you say...")
+    from redis import Redis
+    from time import ctime
+    from simplemq import SimpleMQ
+    
+    class HelloWorldMQ(SimpleMQ):
+    
+        client = Redis(db=3)
+    
+        @classmethod
+        def handler(cls, msg):
+            print("Time: {0}".format(ctime()))
+    
+            if msg == "hello world":
+                print(msg)
+            else:
+                print("i don't know what you say...")
 
 
 2. 使用 enqueue 类方法将消息入队，worker 类方法接受一个参数，用来指定处理消息的时间间隔。
