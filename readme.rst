@@ -55,6 +55,27 @@ SimpleMQ 的口号是：“messaging that just work easier！”。
 3. 没有步骤三，耶！
 
 
+需求 & 安装
+============
+
+Python 2.7, redis-py 2.4.7, Redis 2.4
+
+$ sudo pip2 install SimpleMQ
+
+
+测试
+=====
+
+$ cd /SimpleMQ
+$ ./test.py
+
+
+注意
+=====
+
+SimpleMQ 的内部实现是不安全队列，也就是说，如果处理消息的客户端失败的话(比如，handler 方法在运行过程中被强制退出)，消息就会丢失并得不到处理，因此，你应该\ *仅*\ 将 SimpleMQ 用于一些可丢失的任务当中。
+
+
 API手册
 =========
 
@@ -133,33 +154,6 @@ SimpleMQ.length(cls)
 ---------------------
 
 返回当前队列里等待处理的消息数量。
-
-
-注意
-=====
-
-SimpleMQ 的内部实现是不安全队列，也就是说，如果处理消息的客户端失败的话(比如，handler 方法在运行过程中被强制退出)，消息就会丢失并得不到处理，因此，你应该\ *仅*\ 将 SimpleMQ 用于一些可丢失的任务当中。
-
-
-需求
-======
-
-| Python 2.7
-| redis-py 2.4.7
-| Redis 2.4
-
-
-安装
-======
-
-$ sudo pip2 install SimpleMQ
-
-
-测试
-=====
-
-$ cd /SimpleMQ
-$ ./test.py
 
 
 许可
