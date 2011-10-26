@@ -67,6 +67,7 @@ $ sudo pip2 install SimpleMQ
 =====
 
 $ cd /SimpleMQ
+
 $ ./test.py
 
 
@@ -166,5 +167,7 @@ SimpleMQ.length(cls)
 ========
 
 twitter: @huangz1990
+
 gmail: huangz1990
+
 豆瓣: http://www.douban.com/people/i_m_huangz/
