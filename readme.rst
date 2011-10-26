@@ -1,8 +1,5 @@
-About SimpleMQ
+关于 SimpleMQ
 ********************
-
-关于SimpleMQ
-===============
 
 SimpleMQ 是一个简单易用的消息队列(MQ,message queue)库，使用 Python2 写成，以 Reids 作为后端。
 
@@ -23,7 +20,7 @@ SimpleMQ 的口号是：“messaging that just work easier！”。
     
     class HelloWorldMQ(SimpleMQ):
     
-        client = Redis(db=3)
+        client = Redis(db=3)    # 指定 redis 客户端
     
         @classmethod
         def handler(cls, msg):
@@ -141,21 +138,28 @@ SimpleMQ.length(cls)
 注意
 =====
 
-SimpleMQ 的内部实现是不安全队列，也就是说，如果处理消息的客户端失败的话(比如，handler 方法在运行过程中被强制退出)，消息就会丢失并得不到处理，因此，你应该*仅*将 SimpleMQ 用于一些可丢失的任务当中。
+SimpleMQ 的内部实现是不安全队列，也就是说，如果处理消息的客户端失败的话(比如，handler 方法在运行过程中被强制退出)，消息就会丢失并得不到处理，因此，你应该\ *仅*\ 将 SimpleMQ 用于一些可丢失的任务当中。
 
 
 需求
 ======
 
-Python 2.7
-redis-py 2.4.7
-Redis 2.4
+| Python 2.7
+| redis-py 2.4.7
+| Redis 2.4
+
+
+安装
+======
+
+$ sudo pip2 install SimpleMQ
 
 
 测试
 =====
 
-./test.py
+$ cd /SimpleMQ
+$ ./test.py
 
 
 许可
