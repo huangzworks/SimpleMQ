@@ -1,3 +1,6 @@
+About SimpleMQ
+********************
+
 关于SimpleMQ
 ===============
 
@@ -9,7 +12,7 @@ SimpleMQ 的口号是：“messaging that just work easier！”。
 使用方法
 ===========
 
-1. 用新类继承 SimpleMQ 类，并重载 handler 类方法，其中 handler 负责处理消息；
+1. 用新类继承 ``SimpleMQ`` 类，并重载 ``handler`` 类方法，其中 ``handler`` 负责处理消息；
    如果有需要的话，你也可以指定 Redis 使用的客户端及其参数。
 
 ::
@@ -32,22 +35,24 @@ SimpleMQ 的口号是：“messaging that just work easier！”。
                 print("i don't know what you say...")
 
 
-2. 使用 enqueue 类方法将消息入队，worker 类方法接受一个参数，用来指定处理消息的时间间隔。
+2. 使用 ``enqueue`` 类方法将消息入队， ``worker`` 类方法接受一个参数(\ ``delay``\ )，用来指定处理消息的时间间隔。
 
->>> from t import HelloWorldMQ
->>> HelloWorldMQ.enqueue('hi')
-True
->>> HelloWorldMQ.enqueue('morning')
-True
->>> HelloWorldMQ.enqueue('hello world')
-True
->>> HelloWorldMQ.worker(5)  # 每5秒处理一次消息
-Time: Wed Oct 26 14:13:28 2011
-'hi'??? i don't know what you say...
-Time: Wed Oct 26 14:13:33 2011
-'morning'??? i don't know what you say...
-Time: Wed Oct 26 14:13:38 2011
-hello world
+::
+
+    >>> from t import HelloWorldMQ
+    >>> HelloWorldMQ.enqueue('hi')
+    True
+    >>> HelloWorldMQ.enqueue('morning')
+    True
+    >>> HelloWorldMQ.enqueue('hello world')
+    True
+    >>> HelloWorldMQ.worker(5)  # 每5秒处理一次消息
+    Time: Wed Oct 26 14:13:28 2011
+    'hi'??? i don't know what you say...
+    Time: Wed Oct 26 14:13:33 2011
+    'morning'??? i don't know what you say...
+    Time: Wed Oct 26 14:13:38 2011
+    hello world
 
 
 3. 没有步骤三，耶！
@@ -59,30 +64,35 @@ API手册
 SimpleMQ.client
 -----------------
 
-接受一个redis-py.Redis的实例，作为MQ的客户端，默认为： client = Redis()
+接受一个 ``redis-py.Redis`` 的实例，作为MQ的客户端，默认为： ``client = Redis()`` 。
 
 你可以在派生新类的时候将配置硬写进类定义里:
 
-class Q(SimpleMQ):
-    client = Redis(db=3)
-    # ...
+::
+
+    class Q(SimpleMQ):
+        client = Redis(db=3)
+        # ...
 
 也可以在解释器中动态改变客户端(反正就是赋值而已嘛！)
 
-Q.client = Reids(db=5)
-# ...
+::
+    
+    # ...
+    Q.client = Reids(db=5)
+    # ...
 
 SimpleMQ.name(cls)
 ----------------------
 
 返回队列的名字。
-队列名字全部以 'SimpleMQ::QueueClassName' 格式的Key名保存在 Redis 当中。
+队列名字全部以 ``'SimpleMQ::QueueClassName'`` 格式的Key名保存在 Redis 当中。
 
 SimpleMQ.enqueue(cls, msg)
 ------------------------------
 
-将 msg 保存到队列当中，接受所有能转换成 JSON 格式的数据。
-如果 msg 保存成功，返回 True 。
+将 ``msg`` 保存到队列当中，接受所有能转换成 JSON 格式的数据。
+如果 ``msg`` 保存成功，返回 ``True`` 。
 
 SimpleMQ 以 FIFO 的方式入队和出队消息。
 
@@ -92,31 +102,35 @@ SimpleMQ.dequeue(cls)
 从队列中取出消息并返回。
 如果队列中没有任何消息(队列为空)，则阻塞(block)直到有消息可返回为止。
 
-如果自带的 handler + worker 的组合不能满足你的需求，你还可以用 dequeue 构造你自己的 worker：
+如果自带的 handler + worker 的组合不能满足你的需求，你还可以用 ``dequeue`` 构造你自己的 worker：
 
-while True:
-    msg = SimpleMQ.dequeue()
-    # ...
+::
+
+    while True:
+        msg = SimpleMQ.dequeue()
+        # ...
 
 SimpleMQ.handler(cls, msg)
 ------------------------------
 
-你需要通过重载 handler 类方法来为默认的 worker 提供消息处理功能。
+你需要通过重载 ``handler`` 类方法来为默认的 ``worker`` 提供消息处理功能。
 
-class Q(SimpleMQ):
-    @classmethod
-    def handler(cls, msg):
-        # ... 
+::
 
-请记住 handler 是一个类方法，它要用 @classmethod 装饰，并且需要 cls 和 msg 两个参数。
+    class Q(SimpleMQ):
+        @classmethod
+        def handler(cls, msg):
+            # ... 
 
-并且，SimpleMQ 将最大的权力和义务都留给了你 —— SimpleMQ 只提供了最基本的消息的入队和出队机制、以及 worker 的规定时间间隔运行，除此之外，它没有任何功能，一切都要靠你自己在 handler 方法中自力更生！
+请记住 ``handler`` 是一个类方法，它要用 ``@classmethod`` 装饰，并且需要 ``cls`` 和 ``msg`` 两个参数。
+
+并且，SimpleMQ 将最大的权力和义务都留给了你 —— SimpleMQ 只提供了最基本的消息的入队和出队机制、以及 worker 的规定时间间隔运行，除此之外，它没有任何功能，一切都要靠你自己在 ``handler`` 方法中自力更生！
 
 SimpleMQ.worker(cls, delay=0)
 --------------------------------
 
-worker 函数接受一个参数 delay，用来指定处理消息的间隔。
-delay 默认为 0，既不作任何暂停。
+``worker`` 函数接受一个参数 ``delay`` ，用来指定处理消息的间隔。
+``delay`` 默认为 ``0`` ，既不作任何停顿。
 
 SimpleMQ.length(cls)
 ---------------------
