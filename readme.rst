@@ -29,7 +29,7 @@ SimpleMQ 的口号是：“messaging that just work easier！”。
             if msg == "hello world":
                 print(msg)
             else:
-                print("i don't know what you say...")
+                print("'{0}'??? i don't know what you say...".format(msg))
 
 
 2. 使用 ``enqueue`` 类方法将消息入队， ``worker`` 类方法接受一个参数(\ ``delay``\ )，用来指定处理消息的时间间隔。
