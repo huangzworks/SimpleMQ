@@ -66,6 +66,8 @@ $ sudo pip2 install SimpleMQ
 测试
 =====
 
+测试将清空Redis的0号数据库，请小心操作。
+
 $ cd /SimpleMQ
 
 $ ./test.py
